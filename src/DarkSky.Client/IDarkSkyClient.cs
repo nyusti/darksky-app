@@ -4,28 +4,39 @@
     using Microsoft.Rest;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Dark Sky cient interface
+    /// </summary>
     public partial interface IDarkSkyClient
     {
         /// <summary>
-        /// The base URI of the service.
+        /// Gets or sets the base URI.
         /// </summary>
+        /// <value>The base URI.</value>
         Uri BaseUri { get; set; }
 
         /// <summary>
-        /// Gets or sets json serialization settings.
+        /// Gets the serialization settings.
         /// </summary>
+        /// <value>The serialization settings.</value>
         JsonSerializerSettings SerializationSettings { get; }
 
         /// <summary>
-        /// Gets or sets json deserialization settings.
+        /// Gets the deserialization settings.
         /// </summary>
+        /// <value>The deserialization settings.</value>
         JsonSerializerSettings DeserializationSettings { get; }
 
         /// <summary>
-        /// Credentials needed for the client to connect to Azure.
+        /// Gets the credentials.
         /// </summary>
+        /// <value>The credentials.</value>
         ServiceClientCredentials Credentials { get; }
 
+        /// <summary>
+        /// Gets the forecast operations.
+        /// </summary>
+        /// <value>The forecast operations.</value>
         IForecastOperations ForecastOperations { get; }
     }
 }

@@ -10,15 +10,27 @@
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Forecast operations
+    /// </summary>
+    /// <seealso cref="Microsoft.Rest.IServiceOperations{DarkSky.Client.DarkSkyClient}"/>
+    /// <seealso cref="DarkSky.Client.IForecastOperations"/>
     internal partial class ForecastOperations : IServiceOperations<DarkSkyClient>, IForecastOperations
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ForecastOperations"/> class.
+        /// </summary>
+        /// <param name="darkSkyClient">The dark sky client.</param>
+        /// <exception cref="ArgumentNullException">darkSkyClient is null</exception>
         public ForecastOperations(DarkSkyClient darkSkyClient)
         {
             this.Client = darkSkyClient ?? throw new ArgumentNullException(nameof(darkSkyClient));
         }
 
+        /// <inheritdoc/>
         public DarkSkyClient Client { get; }
 
+        /// <inheritdoc/>
         public async Task<HttpOperationResponse<Forecast>> GetForecastWithHttpMessagesAsync(double latitude, double longitude, string lang = null, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
@@ -155,6 +167,7 @@
                     throw new SerializationException("Unable to deserialize the response.", responseContent, ex);
                 }
             }
+
             if (shouldTrace)
             {
                 ServiceClientTracing.Exit(invocationId, result);

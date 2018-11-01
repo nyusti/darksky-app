@@ -42,6 +42,6 @@
         public string Icon { get; set; }
 
         [JsonProperty(PropertyName = "time")]
-        public DateTime? Time { get; set; }
+        public DateTimeOffset? Time { get; set; }
     }
 }

@@ -6,17 +6,28 @@
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Dark Sky clinet implementation
+    /// </summary>
+    /// <seealso cref="Microsoft.Rest.ServiceClient{DarkSky.Client.DarkSkyClient}"/>
+    /// <seealso cref="DarkSky.Client.IDarkSkyClient"/>
     public partial class DarkSkyClient : ServiceClient<DarkSkyClient>, IDarkSkyClient
     {
+        /// <inheritdoc/>
         public Uri BaseUri { get; set; }
 
+        /// <inheritdoc/>
         public JsonSerializerSettings SerializationSettings { get; private set; }
 
+        /// <inheritdoc/>
         public JsonSerializerSettings DeserializationSettings { get; private set; }
 
+        /// <inheritdoc/>
         public ServiceClientCredentials Credentials { get; private set; }
 
+        /// <inheritdoc/>
         public IForecastOperations ForecastOperations { get; private set; }
 
         protected DarkSkyClient(params DelegatingHandler[] handlers)
@@ -63,6 +74,13 @@
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DarkSkyClient"/> class.
+        /// </summary>
+        /// <param name="baseUri">The base URI.</param>
+        /// <param name="credentials">The credentials.</param>
+        /// <param name="handlers">The handlers.</param>
+        /// <exception cref="ArgumentNullException">baseUri or credentials is null</exception>
         public DarkSkyClient(Uri baseUri, ServiceClientCredentials credentials, params DelegatingHandler[] handlers)
             : this(handlers)
         {
@@ -74,6 +92,14 @@
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DarkSkyClient"/> class.
+        /// </summary>
+        /// <param name="baseUri">The base URI.</param>
+        /// <param name="credentials">The credentials.</param>
+        /// <param name="rootHandler">The root handler.</param>
+        /// <param name="handlers">The handlers.</param>
+        /// <exception cref="ArgumentNullException">baseUri or credentials is null</exception>
         public DarkSkyClient(Uri baseUri, ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers)
             : this(rootHandler, handlers)
         {
@@ -85,6 +111,9 @@
             }
         }
 
+        /// <summary>
+        /// Place to run custom initialization logic
+        /// </summary>
         partial void CustomInitialize();
 
         private void Initialize()
@@ -101,7 +130,7 @@
                 ContractResolver = new ReadOnlyJsonContractResolver(),
                 Converters = new List<JsonConverter>
                 {
-                    new UnixTimeJsonConverter()
+                    new UnixDateTimeConverter()
                 }
             };
 
@@ -115,7 +144,7 @@
                 ContractResolver = new ReadOnlyJsonContractResolver(),
                 Converters = new List<JsonConverter>
                 {
-                    new UnixTimeJsonConverter()
+                    new UnixDateTimeConverter()
                 }
             };
 

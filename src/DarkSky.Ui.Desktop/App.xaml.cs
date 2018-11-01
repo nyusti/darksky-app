@@ -13,7 +13,7 @@ namespace DarkSky.Ui.Desktop
             var secretKeyCredentials = new SecretKeyCredentials("aae91878222aef9a2fbaddcbf97edc42");
             var client = new DarkSkyClient(secretKeyCredentials);
 
-            var res = client.ForecastOperations.GetForecastWithHttpMessagesAsync(40, 30).ConfigureAwait(false).GetAwaiter().GetResult();
+            var res = client.ForecastOperations.GetForecastAsync(40, 30).ConfigureAwait(false).GetAwaiter().GetResult();
 
             base.OnStartup(e);
         }
