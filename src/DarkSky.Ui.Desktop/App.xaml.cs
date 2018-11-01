@@ -1,12 +1,12 @@
-﻿using System.Windows;
-using DarkSky.Client;
-
-namespace DarkSky.Ui.Desktop
+﻿namespace DarkSky.Ui.Desktop
 {
+    using System.Windows;
+    using DarkSky.Client;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
         protected override void OnStartup(StartupEventArgs e)
         {
