@@ -4,7 +4,10 @@
     using System.Linq;
     using System.Threading;
     using CommonServiceLocator;
+    using DarkSky.Application.Domain.Services;
     using DarkSky.Application.Injection;
+    using DarkSky.Client;
+    using DarkSky.Ui.Desktop.ServiceClient;
     using GalaSoft.MvvmLight;
     using Microsoft.Practices.Unity.Configuration;
     using Unity;
@@ -41,7 +44,10 @@
 
         private static void RuntimeConfiguration(IUnityContainer container)
         {
-            container.LoadConfiguration();
+            if (UnityConfigurationSection.CurrentSection != null)
+            {
+                container.LoadConfiguration(UnityConfigurationSection.CurrentSection);
+            }
         }
 
         private static void DesignTimeConfiguration(IUnityContainer container)
@@ -50,7 +56,10 @@
             container
                 .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)))
                 .RegisterType<CancellationToken>(new InjectionFactory(c => c.Resolve<CancellationTokenSource>().Token))
-                .RegisterType<IDependencyResolver, UnityHierarchicalDependencyResolver>(new ContainerControlledLifetimeManager());
+                .RegisterType<IDependencyResolver, UnityHierarchicalDependencyResolver>(new ContainerControlledLifetimeManager())
+                .RegisterType<IDarkSkyClient, ConfiguredDarkSkyClient>(new HierarchicalLifetimeManager())
+                .RegisterType<ILocationService, OfflineLocationService>(new HierarchicalLifetimeManager())
+                .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager());
 
             // register all viewmodels as hierarchical
             container.RegisterTypes(

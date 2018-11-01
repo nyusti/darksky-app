@@ -15,6 +15,6 @@
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The list of locations</returns>
-        Task<IList<Location>> GetFavoriteLocationsAsync(CancellationToken cancellationToken);
+        Task<List<Location>> GetFavoriteLocationsAsync(CancellationToken cancellationToken);
     }
 }

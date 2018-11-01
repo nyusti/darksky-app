@@ -1,21 +1,28 @@
 ﻿namespace DarkSky.Ui.Desktop
 {
     using System.Windows;
-    using DarkSky.Client;
+    using GalaSoft.MvvmLight.Threading;
 
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : System.Windows.Application
+    public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        /// <summary>
+        /// Initializes the <see cref="App"/> class.
+        /// </summary>
+        static App()
         {
-            var secretKeyCredentials = new SecretKeyCredentials("aae91878222aef9a2fbaddcbf97edc42");
-            var client = new DarkSkyClient(secretKeyCredentials);
+            DispatcherHelper.Initialize();
+        }
 
-            var res = client.ForecastOperations.GetForecastAsync(40, 30).ConfigureAwait(false).GetAwaiter().GetResult();
-
-            base.OnStartup(e);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="App"/> class.
+        /// </summary>
+        public App()
+        {
+            var bootstrapper = new Bootstrapper();
+            bootstrapper.Run(this);
         }
     }
 }
