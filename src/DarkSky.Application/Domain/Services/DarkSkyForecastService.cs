@@ -40,9 +40,15 @@
             }
 
             var result = await this.darkSkyClient.ForecastOperations.GetForecastAsync(location.Latitude, location.Longiture, language.ToString().ToLowerInvariant(), cancellationToken).ConfigureAwait(false);
-            // TODO: map result
 
-            return null;
+            // TODO: map result
+            return new Forecast
+            {
+                Current = new ForecastDetails
+                {
+                    Icon = result.Currently.Icon
+                }
+            };
         }
     }
 }

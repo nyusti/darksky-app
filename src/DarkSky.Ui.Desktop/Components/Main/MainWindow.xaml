@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DarkSky.Ui.Desktop"
+        xmlns:cont="clr-namespace:DarkSky.Ui.Desktop.Components.Tiles"
         mc:Ignorable="d"
         ShowActivated="True"
         Title="Weather App" Height="450" Width="800">
@@ -49,6 +50,8 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Refreshing..." HorizontalAlignment="Center" Margin="5" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+            <cont:CurrentWeatherTile Grid.Row="1"
+                      Icon="{Binding CurrentForecast.Current.Icon, Mode=OneWay}" />
         </Grid>
     </Grid>
 </Window>

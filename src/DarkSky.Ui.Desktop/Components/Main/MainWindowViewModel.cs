@@ -35,7 +35,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
         private List<Location> locationList;
         private Location selectedLocation;
         private Forecast currentForecast;
-        private readonly RelayCommand<string> openLinkCommand;
+        private RelayCommand<string> openLinkCommand;
 
         private bool isBusy;
         private CancellationTokenSource internalTokenSource;
@@ -65,10 +65,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
             set => this.Set(() => this.CurrentForecast, ref this.currentForecast, value);
         }
 
-        public RelayCommand<string> OpenLinkCommand => (this.openLinkCommand ?? new RelayCommand<string>(url =>
-        {
-            Process.Start(url);
-        }));
+        public RelayCommand<string> OpenLinkCommand => this.openLinkCommand ?? (this.openLinkCommand = new RelayCommand<string>(url => Process.Start(url)));
 
         /// <inheritdoc/>
         public override void Init()

@@ -63,6 +63,7 @@
             }
 
             queryParameters.Add(string.Format("units={0}", Uri.EscapeDataString("ca")));
+            queryParameters.Add(string.Format("exclude={0}", Uri.EscapeDataString("minutely,hourly,flags")));
 
             if (queryParameters.Count > 0)
             {

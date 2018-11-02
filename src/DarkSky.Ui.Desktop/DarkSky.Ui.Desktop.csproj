@@ -207,8 +207,11 @@
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Error\ErrorWindowViewModel.cs" />
+    <Compile Include="Components\Tiles\CurrentWeatherTile.xaml.cs">
+      <DependentUpon>CurrentWeatherTile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Tiles\IconNameToImageConverter.cs" />
     <Compile Include="Configuration\UnityConfiguration.cs" />
-    <Compile Include="Mapping\IconMapper.cs" />
     <Compile Include="ServiceClient\ConfiguredDarkSkyClient.cs" />
     <Compile Include="Components\Main\MainWindowViewModel.cs" />
     <Compile Include="UserContext.cs" />
@@ -228,6 +231,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Components\Tiles\CurrentWeatherTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -272,10 +279,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Converters\" />
+    <Resource Include="Content\Cloud-Fog.png" />
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="Content\splash-screen.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Cloud.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
