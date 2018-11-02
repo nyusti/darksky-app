@@ -1,9 +1,12 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Reflection;
-
-namespace DarkSky.Ui.Desktop.Components
+﻿namespace DarkSky.Application.Extensions
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
+    /// <summary>
+    /// Property expression extensions
+    /// </summary>
     public static class PropertyExtensions
     {
         /// <summary>
@@ -18,17 +21,12 @@ namespace DarkSky.Ui.Desktop.Components
         /// <exception cref="ArgumentException">The expression is not understood.</exception>
         public static PropertyInfo GetPropertyInfo<TSource, TValue>(this Expression<Func<TSource, TValue>> property)
         {
-            if (property == null)
-            {
-                throw new ArgumentNullException("property");
-            }
-
             if (property.Body is MemberExpression body && body.Member is PropertyInfo propertyInfo)
             {
                 return propertyInfo;
             }
 
-            throw new ArgumentException("Expression is not a property", "property");
+            throw new ArgumentException("Expression is not a property", nameof(property));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DarkSky.Ui.Desktop.Components
+﻿namespace DarkSky.Application.Extensions
 {
     using System;
     using System.ComponentModel;
@@ -6,8 +6,19 @@
     using System.Linq.Expressions;
     using System.Reactive.Linq;
 
+    /// <summary>
+    /// Notification extensions
+    /// </summary>
     public static class NotificationExtensions
     {
+        /// <summary>
+        /// Called when [property changes].
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="property">The property.</param>
+        /// <returns>Property change observable.</returns>
         public static IObservable<TProperty> OnPropertyChanges<T, TProperty>(this T source, Expression<Func<T, TProperty>> property)
             where T : INotifyPropertyChanged
         {
@@ -20,7 +31,7 @@
                                 handler => handler.Invoke,
                                 h => source.PropertyChanged += h,
                                 h => source.PropertyChanged -= h)
-                            .Where(e => e.EventArgs.PropertyName == propertyName)
+                            .Where(e => string.Equals(e.EventArgs.PropertyName, propertyName, StringComparison.Ordinal))
                             .Select(e => propertySelector(source))
                             .Subscribe(o);
             });

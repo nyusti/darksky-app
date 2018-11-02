@@ -21,8 +21,11 @@
         /// </summary>
         public App()
         {
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Run(this);
+            this.Startup += (s, args) =>
+            {
+                var bootstrapper = new Bootstrapper();
+                bootstrapper.Run(this);
+            };
         }
     }
 }

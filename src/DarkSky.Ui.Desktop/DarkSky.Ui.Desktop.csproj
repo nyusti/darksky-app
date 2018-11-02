@@ -203,11 +203,19 @@
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Components\ComponentViewModel.cs" />
-    <Compile Include="Components\NotificationExtensions.cs" />
-    <Compile Include="Components\PropertyExtensions.cs" />
+    <Compile Include="Components\Error\ErrorWindow.xaml.cs">
+      <DependentUpon>ErrorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Error\ErrorWindowViewModel.cs" />
     <Compile Include="Configuration\UnityConfiguration.cs" />
+    <Compile Include="Mapping\IconMapper.cs" />
     <Compile Include="ServiceClient\ConfiguredDarkSkyClient.cs" />
     <Compile Include="Components\Main\MainWindowViewModel.cs" />
+    <Compile Include="UserContext.cs" />
+    <Page Include="Components\Error\ErrorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\Main\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

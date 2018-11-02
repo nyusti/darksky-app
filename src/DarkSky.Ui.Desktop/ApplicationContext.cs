@@ -26,5 +26,11 @@
         /// </summary>
         /// <value>The application configuration.</value>
         public static IConfiguration ApplicationConfiguration { get; set; }
+
+        /// <summary>
+        /// Gets the user context.
+        /// </summary>
+        /// <value>The user context.</value>
+        public static UserContext UserContext { get; } = new UserContext();
     }
 }

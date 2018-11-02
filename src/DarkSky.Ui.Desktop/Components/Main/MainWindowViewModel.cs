@@ -7,12 +7,23 @@ namespace DarkSky.Ui.Desktop.Components.Main
     using System.Threading;
     using DarkSky.Application.Domain.Model;
     using DarkSky.Application.Domain.Services;
+    using DarkSky.Application.Extensions;
 
+    /// <summary>
+    /// The view model for the shell
+    /// </summary>
+    /// <seealso cref="DarkSky.Ui.Desktop.Components.ComponentViewModel"/>
     public class MainWindowViewModel : ComponentViewModel
     {
         private readonly IForecastService forecastService;
         private readonly ILocationService locationService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="forecastService">The forecast service.</param>
+        /// <param name="locationService">The location service.</param>
+        /// <exception cref="ArgumentNullException">forecastService or locationService is null</exception>
         public MainWindowViewModel(IForecastService forecastService, ILocationService locationService)
         {
             this.forecastService = forecastService ?? throw new ArgumentNullException(nameof(forecastService));
@@ -23,8 +34,9 @@ namespace DarkSky.Ui.Desktop.Components.Main
         private Location selectedLocation;
         private Forecast currentForecast;
 
-        private bool isForecastLoading;
-        private CancellationTokenSource localTokenSource;
+        private bool isBusy;
+        private CancellationTokenSource internalTokenSource;
+        private IDisposable propertyChangedSubscriber;
 
         public List<Location> LocationList
         {
@@ -38,10 +50,10 @@ namespace DarkSky.Ui.Desktop.Components.Main
             set => this.Set(() => this.SelectedLocation, ref this.selectedLocation, value);
         }
 
-        public bool IsForecastLoading
+        public bool IsBusy
         {
-            get => this.isForecastLoading;
-            set => this.Set(() => this.IsForecastLoading, ref this.isForecastLoading, value);
+            get => this.isBusy;
+            set => this.Set(() => this.IsBusy, ref this.isBusy, value);
         }
 
         public Forecast CurrentForecast
@@ -50,43 +62,63 @@ namespace DarkSky.Ui.Desktop.Components.Main
             set => this.Set(() => this.CurrentForecast, ref this.currentForecast, value);
         }
 
+        /// <inheritdoc/>
         public override void Init()
         {
             // load locations
+            this.IsBusy = true;
             this.locationService.GetFavoriteLocationsAsync(this.CancellationToken)
                 .ToObservable()
-                .Subscribe(list => this.LocationList = list, this.CancellationToken);
+                .Finally(() => this.IsBusy = false)
+                .Subscribe(locations => this.LocationList = locations, this.CancellationToken);
 
-            this.localTokenSource = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationToken);
+            // create an internal cancellation token source to support service cal cancellation
+            this.internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationToken);
 
-            this.OnPropertyChanges(p => p.SelectedLocation)
+            // subscribe to location change
+            this.propertyChangedSubscriber = this.OnPropertyChanges(p => p.SelectedLocation)
                 .Subscribe(location => this.LoadForecast(location));
 
             base.Init();
         }
 
+        /// <summary>
+        /// gets the forecast based on the location
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <exception cref="ArgumentNullException">location is null</exception>
         private void LoadForecast(Location location)
         {
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+
             this.CancelIfInProgress();
-            this.IsForecastLoading = true;
-            this.forecastService.GetForecastAsync(location, this.localTokenSource.Token)
+            this.IsBusy = true;
+            this.forecastService.GetForecastAsync(location, ApplicationContext.UserContext.SelectedLanguage, this.internalTokenSource.Token)
                 .ToObservable()
-                .Finally(() => this.IsForecastLoading = false)
-                .Subscribe(forecast => this.CurrentForecast = forecast, this.localTokenSource.Token);
+                .Finally(() => this.IsBusy = false)
+                .Subscribe(forecast => this.CurrentForecast = forecast, this.internalTokenSource.Token);
         }
 
+        /// <summary>
+        /// Cancels if in progress.
+        /// </summary>
         private void CancelIfInProgress()
         {
-            if (!this.localTokenSource.IsCancellationRequested)
+            if (!this.internalTokenSource.IsCancellationRequested)
             {
-                this.localTokenSource.Cancel();
-                this.localTokenSource.Dispose();
-                this.localTokenSource = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationTokenSource.Token);
+                this.internalTokenSource.Cancel();
+                this.internalTokenSource.Dispose();
+                this.internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationTokenSource.Token);
             }
         }
 
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
+            this.propertyChangedSubscriber.Dispose();
             base.Dispose(disposing);
         }
     }

@@ -1,6 +1,7 @@
 ﻿namespace DarkSky.Ui.Desktop
 {
     using DarkSky.Application.Injection;
+    using DarkSky.Ui.Desktop.Components.Error;
     using DarkSky.Ui.Desktop.Components.Main;
     using DarkSky.Ui.Desktop.Configuration;
     using Microsoft.Extensions.Configuration;
@@ -19,7 +20,14 @@
             // register global exception handling
             application.DispatcherUnhandledException += (source, args) =>
             {
-                // TODO: open error window
+                ApplicationContext.UserContext.LastExceptions.Add(args.Exception);
+                using (var windowScope = ApplicationContext.DependencyResolver.BeginScope())
+                {
+                    var errorWindow = windowScope.Resolve<ErrorWindow>();
+                    errorWindow.ShowDialog();
+                }
+
+                args.Handled = true;
             };
 
             // load configuration from file
@@ -52,6 +60,8 @@
 
             // open the main window
             application.MainWindow = mainScope.Resolve<MainWindow>();
+            application.MainWindow.ShowActivated = true;
+            application.MainWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             application.MainWindow.Show();
         }
     }

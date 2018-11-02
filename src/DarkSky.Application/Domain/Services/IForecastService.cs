@@ -13,8 +13,9 @@
         /// Gets the forecast asynchronous.
         /// </summary>
         /// <param name="location">The location.</param>
+        /// <param name="language">The language to query data for.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The forecast for the location</returns>
-        Task<Forecast> GetForecastAsync(Location location, CancellationToken cancellationToken);
+        Task<Forecast> GetForecastAsync(Location location, Languages language, CancellationToken cancellationToken);
     }
 }

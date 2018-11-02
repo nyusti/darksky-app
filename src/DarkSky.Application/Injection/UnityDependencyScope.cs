@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Unity;
+    using Unity.Exceptions;
 
     /// <summary>
     /// Unity based dependency scope
@@ -35,7 +37,16 @@
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            return this.unityContainer.Resolve(serviceType);
+            try
+            {
+                return this.unityContainer.Resolve(serviceType);
+            }
+            catch (ResolutionFailedException ex)
+            {
+                Debug.WriteLine(ex);
+                // TODO: log exception
+                return null;
+            }
         }
 
         /// <summary>

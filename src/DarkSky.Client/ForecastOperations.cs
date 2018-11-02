@@ -62,6 +62,8 @@
                 queryParameters.Add(string.Format("lang={0}", Uri.EscapeDataString(lang)));
             }
 
+            queryParameters.Add(string.Format("units={0}", Uri.EscapeDataString("ca")));
+
             if (queryParameters.Count > 0)
             {
                 url += (url.Contains("?") ? "&" : "?") + string.Join("&", queryParameters);

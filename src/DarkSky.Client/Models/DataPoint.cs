@@ -14,17 +14,17 @@
         [JsonProperty(PropertyName = "summary")]
         public string Summary { get; set; }
 
-        [JsonProperty(PropertyName = "apparentTemperatureMin")]
-        public double? ApparentTemperatureMin { get; set; }
+        [JsonProperty(PropertyName = "apparentTemperatureLow")]
+        public double? ApparentTemperatureLow { get; set; }
 
-        [JsonProperty(PropertyName = "apparentTemperatureMax")]
-        public double? ApparentTemperatureMax { get; set; }
+        [JsonProperty(PropertyName = "apparentTemperatureHigh")]
+        public double? ApparentTemperatureHigh { get; set; }
 
-        [JsonProperty(PropertyName = "temperatureMin")]
-        public double? TemperatureMin { get; set; }
+        [JsonProperty(PropertyName = "temperatureLow")]
+        public double? TemperatureLow { get; set; }
 
-        [JsonProperty(PropertyName = "temperatureMax")]
-        public double? TemperatureMax { get; set; }
+        [JsonProperty(PropertyName = "temperatureHigh")]
+        public double? TemperatureHigh { get; set; }
 
         [JsonProperty(PropertyName = "pressure")]
         public double? Pressure { get; set; }
