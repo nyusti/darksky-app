@@ -271,7 +271,9 @@
       <Name>DarkSky.Client</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="Content\splash-screen.bmp" />
   </ItemGroup>

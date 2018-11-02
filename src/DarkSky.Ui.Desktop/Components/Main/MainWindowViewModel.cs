@@ -2,12 +2,14 @@ namespace DarkSky.Ui.Desktop.Components.Main
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Reactive.Linq;
     using System.Reactive.Threading.Tasks;
     using System.Threading;
     using DarkSky.Application.Domain.Model;
     using DarkSky.Application.Domain.Services;
     using DarkSky.Application.Extensions;
+    using GalaSoft.MvvmLight.CommandWpf;
 
     /// <summary>
     /// The view model for the shell
@@ -33,6 +35,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
         private List<Location> locationList;
         private Location selectedLocation;
         private Forecast currentForecast;
+        private readonly RelayCommand<string> openLinkCommand;
 
         private bool isBusy;
         private CancellationTokenSource internalTokenSource;
@@ -61,6 +64,11 @@ namespace DarkSky.Ui.Desktop.Components.Main
             get => this.currentForecast;
             set => this.Set(() => this.CurrentForecast, ref this.currentForecast, value);
         }
+
+        public RelayCommand<string> OpenLinkCommand => (this.openLinkCommand ?? new RelayCommand<string>(url =>
+        {
+            Process.Start(url);
+        }));
 
         /// <inheritdoc/>
         public override void Init()

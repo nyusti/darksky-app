@@ -8,5 +8,47 @@
         ShowActivated="True"
         Title="Weather App" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <ListView Grid.Column="0"
+                  ItemsSource="{Binding LocationList, Mode=OneTime}"
+                  SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
+                  Width="200">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}, {1}" Mode="OneTime">
+                                <Binding Path="City" />
+                                <Binding Path="CountryCode" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <GridSplitter Grid.Column="1" />
+
+        <ContentControl Grid.Row="1" Margin="10">
+            <Hyperlink Command="{Binding OpenLinkCommand, Mode=OneTime}" CommandParameter="https://darksky.net/poweredby/">
+                Powered by Dark Sky
+            </Hyperlink>
+        </ContentControl>
+        <Grid Grid.Column="2" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Refreshing..." HorizontalAlignment="Center" Margin="5" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+        </Grid>
     </Grid>
 </Window>
