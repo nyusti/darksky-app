@@ -7,12 +7,13 @@
 
     public class OfflineLocationService : ILocationService
     {
-        public Task<List<Location>> GetFavoriteLocationsAsync(CancellationToken cancellationToken)
+        public async Task<List<Location>> GetFavoriteLocationsAsync(CancellationToken cancellationToken)
         {
-            return Task.FromResult(new List<Location>
+            await Task.Delay(5000);
+            return new List<Location>
             {
                 new Location()
-            });
+            };
         }
     }
 }

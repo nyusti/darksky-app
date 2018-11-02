@@ -19,6 +19,7 @@
             // register global exception handling
             application.DispatcherUnhandledException += (source, args) =>
             {
+                // TODO: open error window
             };
 
             // load configuration from file
@@ -33,16 +34,24 @@
             // set the default dependency resolver
             ApplicationContext.DependencyResolver = UnityConfiguration.Container.Resolve<IDependencyResolver>();
 
+            var mainScope = ApplicationContext.DependencyResolver.BeginScope();
+
             // setup cleanup code on exit
             application.Exit += (source, args) =>
             {
-                ApplicationContext.MainCancellationTokenSource.Cancel();
+                mainScope.Dispose();
+
+                if (ApplicationContext.MainCancellationTokenSource?.IsCancellationRequested == false)
+                {
+                    ApplicationContext.MainCancellationTokenSource.Cancel();
+                    ApplicationContext.MainCancellationTokenSource.Dispose();
+                }
+
                 ApplicationContext.DependencyResolver.Dispose();
             };
 
             // open the main window
-            application.MainWindow = ApplicationContext.DependencyResolver.Resolve<MainWindow>();
-            application.MainWindow.ShowActivated = true;
+            application.MainWindow = mainScope.Resolve<MainWindow>();
             application.MainWindow.Show();
         }
     }

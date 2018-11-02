@@ -54,12 +54,11 @@
         {
             // register services
             container
-                .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)))
-                .RegisterType<CancellationToken>(new InjectionFactory(c => c.Resolve<CancellationTokenSource>().Token))
                 .RegisterType<IDependencyResolver, UnityHierarchicalDependencyResolver>(new ContainerControlledLifetimeManager())
                 .RegisterType<IDarkSkyClient, ConfiguredDarkSkyClient>(new HierarchicalLifetimeManager())
                 .RegisterType<ILocationService, OfflineLocationService>(new HierarchicalLifetimeManager())
-                .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager());
+                .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager())
+                .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)));
 
             // register all viewmodels as hierarchical
             container.RegisterTypes(
