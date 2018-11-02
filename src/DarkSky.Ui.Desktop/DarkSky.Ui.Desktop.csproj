@@ -210,6 +210,7 @@
     <Compile Include="Components\Tiles\CurrentWeatherTile.xaml.cs">
       <DependentUpon>CurrentWeatherTile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Tiles\CurrentWeatherTileViewModel.cs" />
     <Compile Include="Components\Tiles\IconNameToImageConverter.cs" />
     <Compile Include="Configuration\UnityConfiguration.cs" />
     <Compile Include="ServiceClient\ConfiguredDarkSkyClient.cs" />

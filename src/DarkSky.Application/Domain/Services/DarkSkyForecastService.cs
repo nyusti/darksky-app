@@ -4,6 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using DarkSky.Application.Domain.Model;
+    using DarkSky.Application.Mapping;
     using DarkSky.Client;
 
     /// <summary>
@@ -13,15 +14,17 @@
     public class DarkSkyForecastService : IForecastService
     {
         private readonly IDarkSkyClient darkSkyClient;
+        private readonly ModelMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DarkSkyForecastService"/> class.
         /// </summary>
         /// <param name="darkSkyClient">The dark sky client.</param>
         /// <exception cref="ArgumentNullException">darkSkyClient</exception>
-        public DarkSkyForecastService(IDarkSkyClient darkSkyClient)
+        public DarkSkyForecastService(IDarkSkyClient darkSkyClient, ModelMapper mapper)
         {
             this.darkSkyClient = darkSkyClient ?? throw new ArgumentNullException(nameof(darkSkyClient));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -41,14 +44,14 @@
 
             var result = await this.darkSkyClient.ForecastOperations.GetForecastAsync(location.Latitude, location.Longiture, language.ToString().ToLowerInvariant(), cancellationToken).ConfigureAwait(false);
 
-            // TODO: map result
-            return new Forecast
+            try
             {
-                Current = new ForecastDetails
-                {
-                    Icon = result.Currently.Icon
-                }
-            };
+                return this.mapper.ForecastDetailsMapper.Value.Map<Forecast>(result);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

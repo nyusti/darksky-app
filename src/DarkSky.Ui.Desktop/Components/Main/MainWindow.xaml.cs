@@ -8,6 +8,10 @@
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Gets or sets the view model.
+        /// </summary>
+        /// <value>The view model.</value>
         [Dependency]
         public MainWindowViewModel ViewModel
         {
@@ -15,6 +19,9 @@
             set => this.DataContext = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             this.InitializeComponent();

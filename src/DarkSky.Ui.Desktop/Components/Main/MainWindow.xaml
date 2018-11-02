@@ -7,7 +7,7 @@
         xmlns:cont="clr-namespace:DarkSky.Ui.Desktop.Components.Tiles"
         mc:Ignorable="d"
         ShowActivated="True"
-        Title="Weather App" Height="450" Width="800">
+        Title="Weather App" Height="600" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -50,8 +50,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Refreshing..." HorizontalAlignment="Center" Margin="5" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-            <cont:CurrentWeatherTile Grid.Row="1"
-                      Icon="{Binding CurrentForecast.Current.Icon, Mode=OneWay}" />
+            <cont:CurrentWeatherTile x:Name="CurrentWeatherTile" Grid.Row="1" Forecast="{Binding CurrentForecast.Currently, Mode=OneWay}" HorizontalAlignment="Center" />
         </Grid>
     </Grid>
 </Window>

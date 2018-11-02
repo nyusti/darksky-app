@@ -6,6 +6,7 @@
     using CommonServiceLocator;
     using DarkSky.Application.Domain.Services;
     using DarkSky.Application.Injection;
+    using DarkSky.Application.Mapping;
     using DarkSky.Client;
     using DarkSky.Ui.Desktop.ServiceClient;
     using GalaSoft.MvvmLight;
@@ -28,6 +29,25 @@
         /// </summary>
         public static IUnityContainer Container => containerFactory.Value;
 
+        private static void DesignTimeConfiguration(IUnityContainer container)
+        {
+            // register services
+            container
+                .RegisterType<IDependencyResolver, UnityHierarchicalDependencyResolver>(new ContainerControlledLifetimeManager())
+                .RegisterType<IDarkSkyClient, ConfiguredDarkSkyClient>(new HierarchicalLifetimeManager())
+                .RegisterType<ILocationService, OfflineLocationService>(new HierarchicalLifetimeManager())
+                .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager())
+                .RegisterType<ModelMapper>(new ContainerControlledLifetimeManager())
+                .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)));
+
+            // register all viewmodels as hierarchical
+            container.RegisterTypes(
+                AllClasses.FromLoadedAssemblies().Where(p => p.IsSubclassOf(typeof(ViewModelBase))),
+                WithMappings.None,
+                WithName.Default,
+                WithLifetime.Hierarchical);
+        }
+
         private static IUnityContainer GetConfiguredContainer()
         {
             // configure singleton container
@@ -48,24 +68,6 @@
             {
                 container.LoadConfiguration(UnityConfigurationSection.CurrentSection);
             }
-        }
-
-        private static void DesignTimeConfiguration(IUnityContainer container)
-        {
-            // register services
-            container
-                .RegisterType<IDependencyResolver, UnityHierarchicalDependencyResolver>(new ContainerControlledLifetimeManager())
-                .RegisterType<IDarkSkyClient, ConfiguredDarkSkyClient>(new HierarchicalLifetimeManager())
-                .RegisterType<ILocationService, OfflineLocationService>(new HierarchicalLifetimeManager())
-                .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager())
-                .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)));
-
-            // register all viewmodels as hierarchical
-            container.RegisterTypes(
-                AllClasses.FromLoadedAssemblies().Where(p => p.IsSubclassOf(typeof(ViewModelBase))),
-                WithMappings.None,
-                WithName.Default,
-                WithLifetime.Hierarchical);
         }
     }
 }

@@ -11,7 +11,28 @@
             <local:IconNameToImageConverter x:Key="NameToIconConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Image x:Name="ForecastIcon" Width="100" Height="100" Source="{Binding Icon, Mode=OneWay, Converter={StaticResource NameToIconConverter}}" />
+    <Grid x:Name="LayoutGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Right" Width="200" Height="200" Stretch="UniformToFill" Source="{Binding IconName, Mode=OneWay, Converter={StaticResource NameToIconConverter}}" VerticalAlignment="Center" />
+        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" FontSize="40" Text="{Binding Temperature, Mode=OneWay}" VerticalAlignment="Bottom" />
+        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="20"  Text="{Binding FeelsLike, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" FontSize="15" HorizontalAlignment="Center" Text="{Binding Summary, Mode=OneWay}" TextWrapping="Wrap" Margin="10,0,10,0" />
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <TextBlock Text="{Binding Wind, Mode=OneWay}" />
+            <TextBlock Text="{Binding Humidity, Mode=OneWay}" />
+            <TextBlock Text="{Binding UvIndex, Mode=OneWay}" />
+            <TextBlock Text="{Binding Pressure, Mode=OneWay}" />
+        </StackPanel>
     </Grid>
 </UserControl>
