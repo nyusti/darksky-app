@@ -36,7 +36,7 @@
         {
             if (disposing)
             {
-                if (!this.CancellationTokenSource.IsCancellationRequested)
+                if (this.CancellationTokenSource?.IsCancellationRequested == false)
                 {
                     this.CancellationTokenSource.Cancel();
                 }

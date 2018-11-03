@@ -44,54 +44,58 @@
 
         <GridSplitter Grid.Column="1" />
 
-        <ContentControl Grid.Row="1" Margin="10">
+        <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="10">
             <Hyperlink Command="{Binding OpenLinkCommand, Mode=OneTime}" CommandParameter="https://darksky.net/poweredby/">
                 Powered by Dark Sky
             </Hyperlink>
         </ContentControl>
-        <Grid Grid.Column="2" Grid.RowSpan="2">
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Refreshing..." HorizontalAlignment="Center" Margin="5" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-            <cont:CurrentWeatherTile x:Name="CurrentWeatherTile" Grid.Row="1" Forecast="{Binding CurrentForecast, Mode=OneWay}" HorizontalAlignment="Center" />
 
-            <ScrollViewer Grid.Row="2" Height="200" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <cont:CurrentWeatherTile x:Name="CurrentWeatherTile" Grid.Row="1"
+                                     Forecast="{Binding CurrentForecast, Mode=OneWay}"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center" />
+
+            <ScrollViewer Grid.Row="2" Margin="0,10,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl ItemsSource="{Binding DailyForecast, Mode=OneWay}" HorizontalAlignment="Center">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="0,0,0,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="15" />
+                                    <RowDefinition Height="15" />
                                 </Grid.RowDefinitions>
 
-                                <Viewbox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="15" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                     Height="25" Width="25" Stretch="Uniform">
+                                <Viewbox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Margin="15,0,15,0"
+                                     Height="30" Width="30" Stretch="Uniform">
                                     <TextBlock FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" Text="{Binding Icon, Mode=OneWay, Converter={StaticResource NameToIconConverter}}" />
                                 </Viewbox>
-                                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Time, Mode=OneWay, StringFormat={}{0:ddd}}" />
-                                    <TextBlock Text="{Binding Temperature, Mode=OneWay}" />
+                                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                    <TextBlock Text="{Binding Time, Mode=OneWay, StringFormat={}{0:ddd}}" FontWeight="Bold" Margin="0,0,5,0" />
+                                    <TextBlock Text="{Binding TemperatureAsString, Mode=OneWay}" FontWeight="Bold" />
                                 </StackPanel>
-                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                     <TextBlock Text="&#xF057;" FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" />
-                                    <TextBlock Text="{Binding WindSpeed, Mode=OneWay}" />
-                                    <TextBlock Text="kph " />
+                                    <TextBlock Text="{Binding WindSpeedRounded, Mode=OneWay}" />
+                                    <TextBlock Text="kph" Margin="5,0,5,0" />
                                     <TextBlock Text="&#xF07A;" FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" />
-                                    <TextBlock Text="{Binding Humidity, Mode=OneWay}" />
-                                    <TextBlock Text="% " />
-                                    <TextBlock Text="UV " />
-                                    <TextBlock Text="{Binding UvIndex, Mode=OneWay}" />
+                                    <TextBlock Text="{Binding HumidityPercentage, Mode=OneWay}" />
+                                    <TextBlock Text="%" Margin="0,0,5,0" />
+                                    <TextBlock Text="UV" />
+                                    <TextBlock Text="{Binding UvIndex, Mode=OneWay}" Margin="5,0,5,0" />
                                     <TextBlock Text="&#xF079;" FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" />
-                                    <TextBlock Text="{Binding Pressure, Mode=OneWay}" />
-                                    <TextBlock Text="hPa" />
+                                    <TextBlock Text="{Binding PressureRounded, Mode=OneWay}" />
+                                    <TextBlock Text="hPa" Margin="5,0,0,0" />
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
