@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DarkSky.Ui.Desktop.Components.Error"
         mc:Ignorable="d"
+        xmlns:l="http://gu.se/Localization"
+        xmlns:p="clr-namespace:DarkSky.Ui.Desktop.Localization"
         WindowStartupLocation="CenterOwner"
-        Title="Oops... something went wrong" Height="450" Width="800">
+        Title="{l:Static p:UserStrings.SomethingWentWrongTitle}" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Something went wrong :(" FontSize="50" Margin="40" />
+        <TextBlock Grid.Row="0" Text="{l:Static p:UserStrings.SomethingWentWrong}" FontSize="50" Margin="40" />
         <TextBox Grid.Row="1" Text="{Binding ExceptionMessage, Mode=OneTime}"
                  BorderThickness="0" Margin="10"
                  VerticalScrollBarVisibility="Auto"
