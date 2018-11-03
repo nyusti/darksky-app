@@ -37,7 +37,7 @@
                 .RegisterType<IDarkSkyClient, ConfiguredDarkSkyClient>(new HierarchicalLifetimeManager())
                 .RegisterType<ILocationService, OfflineLocationService>(new HierarchicalLifetimeManager())
                 .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager())
-                .RegisterType<ModelMapper>(new ContainerControlledLifetimeManager())
+                .RegisterType<IDomainModelMapper, DomainModelMapper>(new ContainerControlledLifetimeManager())
                 .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)));
 
             // register all viewmodels as hierarchical

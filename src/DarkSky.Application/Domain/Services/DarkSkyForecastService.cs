@@ -14,14 +14,14 @@
     public class DarkSkyForecastService : IForecastService
     {
         private readonly IDarkSkyClient darkSkyClient;
-        private readonly ModelMapper mapper;
+        private readonly IDomainModelMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DarkSkyForecastService"/> class.
         /// </summary>
         /// <param name="darkSkyClient">The dark sky client.</param>
         /// <exception cref="ArgumentNullException">darkSkyClient</exception>
-        public DarkSkyForecastService(IDarkSkyClient darkSkyClient, ModelMapper mapper)
+        public DarkSkyForecastService(IDarkSkyClient darkSkyClient, IDomainModelMapper mapper)
         {
             this.darkSkyClient = darkSkyClient ?? throw new ArgumentNullException(nameof(darkSkyClient));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -35,7 +35,7 @@
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The forecast for the location</returns>
         /// <exception cref="ArgumentNullException">location is null</exception>
-        public virtual async Task<Forecast> GetForecastAsync(Location location, Languages language, CancellationToken cancellationToken)
+        public virtual async Task<CurrentWeather> GetForecastAsync(Location location, Languages language, CancellationToken cancellationToken)
         {
             if (location == null)
             {
@@ -46,7 +46,7 @@
 
             try
             {
-                return this.mapper.ForecastDetailsMapper.Value.Map<Forecast>(result);
+                return this.mapper.Map<CurrentWeather>(result);
             }
             catch (Exception)
             {

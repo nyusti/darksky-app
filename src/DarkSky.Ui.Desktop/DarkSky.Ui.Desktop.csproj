@@ -258,6 +258,7 @@
     <None Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="Content\weathericons-regular-webfont.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -280,13 +281,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Content\Cloud-Fog.png" />
-  </ItemGroup>
-  <ItemGroup>
     <SplashScreen Include="Content\splash-screen.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Content\Cloud.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,15 +24,19 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Image Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Right" Width="200" Height="200" Stretch="UniformToFill" Source="{Binding IconName, Mode=OneWay, Converter={StaticResource NameToIconConverter}}" VerticalAlignment="Center" />
-        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" FontSize="40" Text="{Binding Temperature, Mode=OneWay}" VerticalAlignment="Bottom" />
-        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="20"  Text="{Binding FeelsLike, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" FontSize="15" HorizontalAlignment="Center" Text="{Binding Summary, Mode=OneWay}" TextWrapping="Wrap" Margin="10,0,10,0" />
-        <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <TextBlock Text="{Binding Wind, Mode=OneWay}" />
-            <TextBlock Text="{Binding Humidity, Mode=OneWay}" />
-            <TextBlock Text="{Binding UvIndex, Mode=OneWay}" />
-            <TextBlock Text="{Binding Pressure, Mode=OneWay}" />
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding Wind, Mode=OneWay}" Margin="10,0,0,0" />
+            <TextBlock Text="{Binding Humidity, Mode=OneWay}" Margin="10,0,0,0" />
+            <TextBlock Text="{Binding UvIndex, Mode=OneWay}" Margin="10,0,0,0" />
+            <TextBlock Text="{Binding Pressure, Mode=OneWay}" Margin="0,0,10,0" />
         </StackPanel>
+        <Viewbox Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Margin="15" HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Height="100" Width="100" Stretch="Uniform">
+            <TextBlock FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" Text="{Binding IconName, Mode=OneWay, Converter={StaticResource NameToIconConverter}}" />
+        </Viewbox>
+        <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  FontSize="40" Text="{Binding Temperature, Mode=OneWay}" VerticalAlignment="Bottom" />
+        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="20"  Text="{Binding FeelsLike, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <TextBlock Grid.Row="4" Grid.ColumnSpan="2" FontSize="15" HorizontalAlignment="Center"  Text="{Binding Summary, Mode=OneWay}" TextWrapping="Wrap" Margin="10,0,10,0" />
     </Grid>
 </UserControl>

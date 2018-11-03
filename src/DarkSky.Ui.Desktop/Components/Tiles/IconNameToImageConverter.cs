@@ -1,10 +1,9 @@
 ﻿namespace DarkSky.Ui.Desktop.Components.Tiles
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Windows.Data;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
 
     /// <summary>
     /// Icon name to image source converter
@@ -12,17 +11,38 @@
     /// <seealso cref="System.Windows.Data.IValueConverter"/>
     public class IconNameToImageConverter : IValueConverter
     {
+        /// <summary>
+        /// The file name lookup based on https://erikflowers.github.io/weather-icons/
+        /// </summary>
+        private static readonly Dictionary<string, string> fileNameLookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["cloudy"] = "F002",
+            ["clear-day"] = "F00D",
+            ["clear-nigh"] = "F02E",
+            ["rain"] = "F008",
+            ["snow"] = "F00A",
+            ["sleet"] = "F0B2",
+            ["wind"] = "F085",
+            ["fog"] = "F003",
+            ["partly-cloudy-day"] = "F002",
+            ["partly-cloudy-night"] = "F083",
+            ["hail"] = "F004",
+            ["thunderstorm"] = "F010",
+            ["tornado"] = "F056",
+        };
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string iconName && targetType == typeof(ImageSource) && !string.IsNullOrWhiteSpace(iconName))
+            if (value is string iconName && targetType == typeof(string) && !string.IsNullOrWhiteSpace(iconName))
             {
-                switch (iconName.ToLowerInvariant())
+                if (fileNameLookup.TryGetValue(iconName, out string iconChar)
+                    && int.TryParse(iconChar, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int charCode))
                 {
-                    case "cloudy":
-                        return new BitmapImage(new Uri("pack://application:,,,/DarkSky.Ui.Desktop;component/Content/Cloud.png"));
-                    default:
-                        break;
+                    return (string)char.ConvertFromUtf32(charCode);
                 }
+
+                // defaults to unknown
+                return "?";
             }
 
             return null;

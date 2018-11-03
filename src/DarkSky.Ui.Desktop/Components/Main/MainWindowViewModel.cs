@@ -34,7 +34,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
 
         private List<Location> locationList;
         private Location selectedLocation;
-        private Forecast currentForecast;
+        private CurrentWeather currentForecast;
         private RelayCommand<string> openLinkCommand;
 
         private bool isBusy;
@@ -59,7 +59,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
             set => this.Set(() => this.IsBusy, ref this.isBusy, value);
         }
 
-        public Forecast CurrentForecast
+        public CurrentWeather CurrentForecast
         {
             get => this.currentForecast;
             set => this.Set(() => this.CurrentForecast, ref this.currentForecast, value);

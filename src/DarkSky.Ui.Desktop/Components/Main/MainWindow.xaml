@@ -50,7 +50,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Refreshing..." HorizontalAlignment="Center" Margin="5" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-            <cont:CurrentWeatherTile x:Name="CurrentWeatherTile" Grid.Row="1" Forecast="{Binding CurrentForecast.Currently, Mode=OneWay}" HorizontalAlignment="Center" />
+            <cont:CurrentWeatherTile x:Name="CurrentWeatherTile" Grid.Row="1" Forecast="{Binding CurrentForecast, Mode=OneWay}" HorizontalAlignment="Center" />
         </Grid>
     </Grid>
 </Window>

@@ -11,7 +11,7 @@
     public partial class CurrentWeatherTile : UserControl
     {
         public static readonly DependencyProperty ForecastProperty =
-            DependencyProperty.Register("Forecast", typeof(Forecast), typeof(CurrentWeatherTile), new PropertyMetadata(ForecastCallback));
+            DependencyProperty.Register("Forecast", typeof(CurrentWeather), typeof(CurrentWeatherTile), new PropertyMetadata(ForecastCallback));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CurrentWeatherTile"/> class.
@@ -22,9 +22,9 @@
             this.ViewModel = new CurrentWeatherTileViewModel();
         }
 
-        public Forecast Forecast
+        public CurrentWeather Forecast
         {
-            get { return (Forecast)this.GetValue(ForecastProperty); }
+            get { return (CurrentWeather)this.GetValue(ForecastProperty); }
             set { this.SetValue(ForecastProperty, value); }
         }
 
@@ -36,7 +36,7 @@
 
         private static void ForecastCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is CurrentWeatherTile tile && e.NewValue != e.OldValue && e.NewValue is Forecast details)
+            if (d is CurrentWeatherTile tile && e.NewValue != e.OldValue && e.NewValue is CurrentWeather details)
             {
                 var viewModel = tile.ViewModel;
                 viewModel.IconName = details.Icon;
