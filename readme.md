@@ -3,8 +3,8 @@
 Simple weather forecast applicaiton based on the Dark Sky API built for Windows desktop.
 
 ## Features
-- Select from the following cities: Budapest, Luxembourg, Debrecen, Pécs, Wienna, Prague, München, Amsterdam.
-- Change user interface language. (not yet finished)
+- Select from the following cities: Budapest, Luxembourg, Debrecen, PÃ©cs, Wienna, Prague, MÃ¼nchen, Amsterdam.
+- Change user interface language.
 - Current weather conditions for the selected city
 - Visualize the current conditions by picture or animation.
 - Show some important information
