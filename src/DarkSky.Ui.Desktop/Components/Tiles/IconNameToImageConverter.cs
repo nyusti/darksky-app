@@ -16,6 +16,7 @@
         /// </summary>
         private static readonly Dictionary<string, string> fileNameLookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
+            // if used in markup the following format is sufficient: &#xF002;
             ["cloudy"] = "F002",
             ["clear-day"] = "F00D",
             ["clear-nigh"] = "F02E",

@@ -6,11 +6,6 @@
              xmlns:local="clr-namespace:DarkSky.Ui.Desktop.Components.Tiles"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <local:IconNameToImageConverter x:Key="NameToIconConverter" />
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Grid x:Name="LayoutGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -25,7 +20,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="382,0,378,0">
             <TextBlock Text="{Binding Wind, Mode=OneWay}" Margin="10,0,0,0" />
             <TextBlock Text="{Binding Humidity, Mode=OneWay}" Margin="10,0,0,0" />
             <TextBlock Text="{Binding UvIndex, Mode=OneWay}" Margin="10,0,0,0" />

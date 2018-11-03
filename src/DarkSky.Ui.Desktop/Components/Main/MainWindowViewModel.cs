@@ -3,6 +3,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reactive.Linq;
     using System.Reactive.Threading.Tasks;
     using System.Threading;
@@ -40,6 +41,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
         private bool isBusy;
         private CancellationTokenSource internalTokenSource;
         private IDisposable propertyChangedSubscriber;
+        private List<Forecast> dailyForecast;
 
         public List<Location> LocationList
         {
@@ -63,6 +65,12 @@ namespace DarkSky.Ui.Desktop.Components.Main
         {
             get => this.currentForecast;
             set => this.Set(() => this.CurrentForecast, ref this.currentForecast, value);
+        }
+
+        public List<Forecast> DailyForecast
+        {
+            get => this.dailyForecast;
+            set => this.Set(() => this.DailyForecast, ref this.dailyForecast, value);
         }
 
         public RelayCommand<string> OpenLinkCommand => this.openLinkCommand ?? (this.openLinkCommand = new RelayCommand<string>(url => Process.Start(url)));
@@ -104,7 +112,11 @@ namespace DarkSky.Ui.Desktop.Components.Main
             this.forecastService.GetForecastAsync(location, ApplicationContext.UserContext.SelectedLanguage, this.internalTokenSource.Token)
                 .ToObservable()
                 .Finally(() => this.IsBusy = false)
-                .Subscribe(forecast => this.CurrentForecast = forecast, this.internalTokenSource.Token);
+                .Subscribe(forecast =>
+                {
+                    this.CurrentForecast = forecast;
+                    this.DailyForecast = forecast.Daily.OrderBy(p => p.Time).ToList();
+                }, this.internalTokenSource.Token);
         }
 
         /// <summary>

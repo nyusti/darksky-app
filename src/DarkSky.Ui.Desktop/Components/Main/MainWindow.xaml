@@ -18,6 +18,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+
+        <ComboBox Grid.Row="0" Grid.ColumnSpan="3" Margin="10" Width="75" Height="25" VerticalAlignment="top" HorizontalAlignment="Right" SelectedIndex="0">
+            <ListBoxItem>English</ListBoxItem>
+            <ListBoxItem>Magyar</ListBoxItem>
+        </ComboBox>
+
         <ListView Grid.Column="0"
                   ItemsSource="{Binding LocationList, Mode=OneTime}"
                   SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
@@ -51,6 +57,47 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Refreshing..." HorizontalAlignment="Center" Margin="5" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
             <cont:CurrentWeatherTile x:Name="CurrentWeatherTile" Grid.Row="1" Forecast="{Binding CurrentForecast, Mode=OneWay}" HorizontalAlignment="Center" />
+
+            <ScrollViewer Grid.Row="2" Height="200" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding DailyForecast, Mode=OneWay}" HorizontalAlignment="Center">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="15" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                     Height="25" Width="25" Stretch="Uniform">
+                                    <TextBlock FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" Text="{Binding Icon, Mode=OneWay, Converter={StaticResource NameToIconConverter}}" />
+                                </Viewbox>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Time, Mode=OneWay, StringFormat={}{0:ddd}}" />
+                                    <TextBlock Text="{Binding Temperature, Mode=OneWay}" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                    <TextBlock Text="&#xF057;" FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" />
+                                    <TextBlock Text="{Binding WindSpeed, Mode=OneWay}" />
+                                    <TextBlock Text="kph " />
+                                    <TextBlock Text="&#xF07A;" FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" />
+                                    <TextBlock Text="{Binding Humidity, Mode=OneWay}" />
+                                    <TextBlock Text="% " />
+                                    <TextBlock Text="UV " />
+                                    <TextBlock Text="{Binding UvIndex, Mode=OneWay}" />
+                                    <TextBlock Text="&#xF079;" FontFamily="/DarkSky.Ui.Desktop;component/Content/#Weather Icons" />
+                                    <TextBlock Text="{Binding Pressure, Mode=OneWay}" />
+                                    <TextBlock Text="hPa" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Window>
