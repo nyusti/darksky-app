@@ -129,6 +129,12 @@
   <data name="Refreshing" xml:space="preserve">
     <value>Frissítés...</value>
   </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Valami elromlott :(</value>
+  </data>
+  <data name="SomethingWentWrongTitle" xml:space="preserve">
+    <value>Oops... valami elromlott</value>
+  </data>
   <data name="UvIndex" xml:space="preserve">
     <value>UV index:</value>
   </data>

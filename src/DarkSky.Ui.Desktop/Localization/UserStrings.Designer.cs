@@ -97,6 +97,24 @@ namespace DarkSky.Ui.Desktop.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong :(.
+        /// </summary>
+        public static string SomethingWentWrong {
+            get {
+                return ResourceManager.GetString("SomethingWentWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops... something went wrong.
+        /// </summary>
+        public static string SomethingWentWrongTitle {
+            get {
+                return ResourceManager.GetString("SomethingWentWrongTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to UV Index:.
         /// </summary>
         public static string UvIndex {

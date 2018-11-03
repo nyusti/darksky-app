@@ -129,6 +129,12 @@
   <data name="Refreshing" xml:space="preserve">
     <value>Refreshing...</value>
   </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Something went wrong :(</value>
+  </data>
+  <data name="SomethingWentWrongTitle" xml:space="preserve">
+    <value>Oops... something went wrong</value>
+  </data>
   <data name="UvIndex" xml:space="preserve">
     <value>UV Index:</value>
   </data>
