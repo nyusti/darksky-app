@@ -138,6 +138,12 @@
   <data name="UvIndex" xml:space="preserve">
     <value>UV index:</value>
   </data>
+  <data name="WelcomeText" xml:space="preserve">
+    <value>A kezdéshez kattint egy városra a listából</value>
+  </data>
+  <data name="WelcomeTitle" xml:space="preserve">
+    <value>Üdvözöllek a Weather App-ban</value>
+  </data>
   <data name="Wind" xml:space="preserve">
     <value>Szél:</value>
   </data>

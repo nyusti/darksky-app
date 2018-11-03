@@ -138,6 +138,12 @@
   <data name="UvIndex" xml:space="preserve">
     <value>UV Index:</value>
   </data>
+  <data name="WelcomeText" xml:space="preserve">
+    <value>To start select a city from the list</value>
+  </data>
+  <data name="WelcomeTitle" xml:space="preserve">
+    <value>Welcome to the Weather App</value>
+  </data>
   <data name="Wind" xml:space="preserve">
     <value>Wind:</value>
   </data>
