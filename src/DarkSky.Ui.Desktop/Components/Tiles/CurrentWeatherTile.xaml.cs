@@ -1,6 +1,5 @@
 ﻿namespace DarkSky.Ui.Desktop.Components.Tiles
 {
-    using System;
     using System.Windows;
     using System.Windows.Controls;
     using DarkSky.Application.Domain.Model;
@@ -40,13 +39,13 @@
             {
                 var viewModel = tile.ViewModel;
                 viewModel.IconName = details.Icon;
-                viewModel.Temperature = $"{Math.Round(details.Temperature ?? 0)}° {details.Summary}";
-                viewModel.FeelsLike = $"Feels like {Math.Round(details.ApparentTemperature ?? 0)}°";
+                viewModel.Temperature = $"{details.TemperatureAsString} {details.Summary}";
+                viewModel.FeelsLike = details.FeelsAsString;
                 viewModel.Summary = details.DailySummary;
-                viewModel.Wind = $"Wind: {Math.Round(details.WindSpeed ?? 0)} kph";
-                viewModel.Humidity = $"Humidity: {details.Humidity * 100}%";
-                viewModel.UvIndex = $"UV Index: {details.UvIndex}";
-                viewModel.Pressure = $"Pressure: {Math.Round(details.Pressure ?? 0)} hPa";
+                viewModel.Wind = $"{details.WindSpeedRounded} kph";
+                viewModel.Humidity = $"{details.HumidityPercentage}%";
+                viewModel.UvIndex = $"{details.UvIndex}";
+                viewModel.Pressure = $"{details.PressureRounded} hPa";
             }
         }
     }

@@ -19,7 +19,7 @@
             // if used in markup the following format is sufficient: &#xF002;
             ["cloudy"] = "F002",
             ["clear-day"] = "F00D",
-            ["clear-nigh"] = "F02E",
+            ["clear-night"] = "F02E",
             ["rain"] = "F008",
             ["snow"] = "F00A",
             ["sleet"] = "F0B2",

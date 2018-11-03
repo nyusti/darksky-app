@@ -3,12 +3,19 @@
     public class CurrentWeatherTileViewModel : ComponentViewModel
     {
         private string feelsLike;
+
         private string humidity;
+
         private string iconName;
+
         private string pressure;
+
         private string summary;
+
         private string temperature;
+
         private string uvIndex;
+
         private string wind;
 
         public string FeelsLike

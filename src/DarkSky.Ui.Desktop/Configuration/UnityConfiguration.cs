@@ -8,6 +8,7 @@
     using DarkSky.Application.Injection;
     using DarkSky.Application.Mapping;
     using DarkSky.Client;
+    using DarkSky.Ui.Desktop.Localization;
     using DarkSky.Ui.Desktop.ServiceClient;
     using GalaSoft.MvvmLight;
     using Microsoft.Practices.Unity.Configuration;
@@ -38,6 +39,7 @@
                 .RegisterType<ILocationService, OfflineLocationService>(new HierarchicalLifetimeManager())
                 .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager())
                 .RegisterType<IDomainModelMapper, DomainModelMapper>(new ContainerControlledLifetimeManager())
+                .RegisterType<ILanguageService, LanguageService>(new ContainerControlledLifetimeManager())
                 .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)));
 
             // register all viewmodels as hierarchical

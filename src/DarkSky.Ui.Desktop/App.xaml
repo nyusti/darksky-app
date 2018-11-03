@@ -7,11 +7,13 @@
     d1p1:Ignorable="d"
     xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:title="clr-namespace:DarkSky.Ui.Desktop.Components.Tiles"
+    xmlns:loc="clr-namespace:DarkSky.Ui.Desktop.Localization"
     ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <title:IconNameToImageConverter x:Key="NameToIconConverter" />
+            <loc:LanguageService x:Key="Loc" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
