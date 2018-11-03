@@ -43,15 +43,7 @@
             }
 
             var result = await this.darkSkyClient.ForecastOperations.GetForecastAsync(location.Latitude, location.Longiture, language.ToString().ToLowerInvariant(), cancellationToken).ConfigureAwait(false);
-
-            try
-            {
-                return this.mapper.Map<CurrentWeather>(result);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return this.mapper.Map<CurrentWeather>(result);
         }
     }
 }
