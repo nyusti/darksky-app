@@ -124,6 +124,24 @@ namespace DarkSky.Ui.Desktop.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To start select a city from the list.
+        /// </summary>
+        public static string WelcomeText {
+            get {
+                return ResourceManager.GetString("WelcomeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to the Weather App.
+        /// </summary>
+        public static string WelcomeTitle {
+            get {
+                return ResourceManager.GetString("WelcomeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wind:.
         /// </summary>
         public static string Wind {

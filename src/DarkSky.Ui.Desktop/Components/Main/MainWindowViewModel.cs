@@ -6,12 +6,12 @@ namespace DarkSky.Ui.Desktop.Components.Main
     using System.Linq;
     using System.Reactive.Linq;
     using System.Reactive.Threading.Tasks;
-    using System.Threading;
     using DarkSky.Application.Domain.Model;
     using DarkSky.Application.Domain.Services;
     using DarkSky.Application.Extensions;
     using DarkSky.Ui.Desktop.Localization;
     using GalaSoft.MvvmLight.CommandWpf;
+    using GalaSoft.MvvmLight.Views;
 
     /// <summary>
     /// The view model for the shell
@@ -19,14 +19,9 @@ namespace DarkSky.Ui.Desktop.Components.Main
     /// <seealso cref="DarkSky.Ui.Desktop.Components.ComponentViewModel"/>
     public class MainWindowViewModel : ComponentViewModel
     {
-        private readonly IForecastService forecastService;
         private readonly ILanguageService languageService;
         private readonly ILocationService locationService;
-
-        private CurrentWeather currentForecast;
-        private List<Forecast> dailyForecast;
-        private CancellationTokenSource internalTokenSource;
-        private bool isBusy;
+        private readonly INavigationService navigationService;
         private List<Language> languages;
         private List<Location> locationList;
         private RelayCommand<string> openLinkCommand;
@@ -40,29 +35,11 @@ namespace DarkSky.Ui.Desktop.Components.Main
         /// <param name="forecastService">The forecast service.</param>
         /// <param name="locationService">The location service.</param>
         /// <exception cref="ArgumentNullException">forecastService or locationService is null</exception>
-        public MainWindowViewModel(IForecastService forecastService, ILocationService locationService, ILanguageService languageService)
+        public MainWindowViewModel(ILocationService locationService, ILanguageService languageService, INavigationService navigationService)
         {
-            this.forecastService = forecastService ?? throw new ArgumentNullException(nameof(forecastService));
             this.locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
             this.languageService = languageService ?? throw new ArgumentNullException(nameof(languageService));
-        }
-
-        public CurrentWeather CurrentForecast
-        {
-            get => this.currentForecast;
-            set => this.Set(() => this.CurrentForecast, ref this.currentForecast, value);
-        }
-
-        public List<Forecast> DailyForecast
-        {
-            get => this.dailyForecast;
-            set => this.Set(() => this.DailyForecast, ref this.dailyForecast, value);
-        }
-
-        public bool IsBusy
-        {
-            get => this.isBusy;
-            set => this.Set(() => this.IsBusy, ref this.isBusy, value);
+            this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
 
         public List<Language> Languages
@@ -70,8 +47,6 @@ namespace DarkSky.Ui.Desktop.Components.Main
             get => this.languages;
             set => this.Set(() => this.Languages, ref this.languages, value);
         }
-
-        public ILanguageService Loc => this.languageService;
 
         public List<Location> LocationList
         {
@@ -96,12 +71,9 @@ namespace DarkSky.Ui.Desktop.Components.Main
         /// <inheritdoc/>
         public override void Init()
         {
-            // create an internal cancellation token source to support service cal cancellation
-            this.internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationToken);
-
             // subscribe to location change
             this.propertyChangedSubscriber = this.OnPropertyChanges(p => p.SelectedLocation)
-                .Subscribe(location => this.LoadForecast(location));
+                .Subscribe(location => this.navigationService.NavigateTo("/Components/Tiles/CurrentWeatherPage.xaml", this.SelectedLocation));
 
             this.OnPropertyChanges(p => p.SelectedLanguage)
                 .Where(language => language != null)
@@ -110,7 +82,7 @@ namespace DarkSky.Ui.Desktop.Components.Main
                     this.languageService.ChangeLanguage(language);
                     if (this.SelectedLocation != null)
                     {
-                        this.LoadForecast(this.SelectedLocation);
+                        this.navigationService.NavigateTo("/Components/Tiles/CurrentWeatherPage.xaml", this.SelectedLocation);
                     }
                 });
 
@@ -124,15 +96,15 @@ namespace DarkSky.Ui.Desktop.Components.Main
                 }, this.CancellationToken);
 
             // load locations
-            this.IsBusy = true;
+
             this.locationService.GetFavoriteLocationsAsync(this.CancellationToken)
                 .ToObservable()
-                .Finally(() => this.IsBusy = false)
                 .Subscribe(locations =>
                 {
                     this.LocationList = locations;
-                    this.SelectedLocation = this.LocationList.FirstOrDefault();
                 }, this.CancellationToken);
+
+            this.navigationService.NavigateTo("/Components/Welcome/WelcomePage.xaml");
 
             base.Init();
         }
@@ -142,43 +114,6 @@ namespace DarkSky.Ui.Desktop.Components.Main
         {
             this.propertyChangedSubscriber.Dispose();
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Cancels if in progress.
-        /// </summary>
-        private void CancelIfInProgress()
-        {
-            if (this.internalTokenSource?.IsCancellationRequested == true)
-            {
-                this.internalTokenSource.Cancel();
-                this.internalTokenSource.Dispose();
-                this.internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationTokenSource.Token);
-            }
-        }
-
-        /// <summary>
-        /// gets the forecast based on the location
-        /// </summary>
-        /// <param name="location">The location.</param>
-        /// <exception cref="ArgumentNullException">location is null</exception>
-        private void LoadForecast(Location location)
-        {
-            if (location == null)
-            {
-                throw new ArgumentNullException(nameof(location));
-            }
-
-            this.CancelIfInProgress();
-            this.IsBusy = true;
-            this.forecastService.GetForecastAsync(location, ApplicationContext.UserContext.SelectedLanguage, this.internalTokenSource.Token)
-                .ToObservable()
-                .Finally(() => this.IsBusy = false)
-                .Subscribe(forecast =>
-                {
-                    this.CurrentForecast = forecast;
-                    this.DailyForecast = forecast.Daily.OrderBy(p => p.Time).ToList();
-                }, this.internalTokenSource.Token);
         }
     }
 }

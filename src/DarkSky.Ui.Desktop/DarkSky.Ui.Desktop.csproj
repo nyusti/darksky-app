@@ -195,11 +195,14 @@
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Error\ErrorWindowViewModel.cs" />
-    <Compile Include="Components\Tiles\CurrentWeatherTile.xaml.cs">
-      <DependentUpon>CurrentWeatherTile.xaml</DependentUpon>
+    <Compile Include="Components\Tiles\CurrentWeatherPage.xaml.cs">
+      <DependentUpon>CurrentWeatherPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\Tiles\CurrentWeatherTileViewModel.cs" />
+    <Compile Include="Components\Tiles\CurrentWeatherPageViewModel.cs" />
     <Compile Include="Components\Tiles\IconNameToImageConverter.cs" />
+    <Compile Include="Components\Welcome\WelcomePage.xaml.cs">
+      <DependentUpon>WelcomePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\UnityConfiguration.cs" />
     <Compile Include="Localization\ILanguageService.cs" />
     <Compile Include="Localization\LanguageService.cs" />
@@ -208,6 +211,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Navigation\PageNavigationService.cs" />
     <Compile Include="ServiceClient\ConfiguredDarkSkyClient.cs" />
     <Compile Include="Components\Main\MainWindowViewModel.cs" />
     <Compile Include="UserContext.cs" />
@@ -227,7 +231,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Components\Tiles\CurrentWeatherTile.xaml">
+    <Page Include="Components\Tiles\CurrentWeatherPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Welcome\WelcomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

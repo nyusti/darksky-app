@@ -4,6 +4,8 @@
     using DarkSky.Ui.Desktop.Components.Error;
     using DarkSky.Ui.Desktop.Components.Main;
     using DarkSky.Ui.Desktop.Configuration;
+    using DarkSky.Ui.Desktop.Navigation;
+    using GalaSoft.MvvmLight.Views;
     using Microsoft.Extensions.Configuration;
     using Unity;
 
@@ -59,9 +61,16 @@
             };
 
             // open the main window
-            application.MainWindow = mainScope.Resolve<MainWindow>();
+            var mainWindow = new MainWindow();
+            var navigationService = mainWindow.NavigationFrame.NavigationService;
+            UnityConfiguration.Container.RegisterInstance<INavigationService>(new PageNavigationService(navigationService));
+
+            mainScope.BuildUp(mainWindow);
+
+            application.MainWindow = mainWindow;
             application.MainWindow.ShowActivated = true;
             application.MainWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+
             application.MainWindow.Show();
         }
     }
