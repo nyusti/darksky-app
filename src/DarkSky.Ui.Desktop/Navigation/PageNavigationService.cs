@@ -90,9 +90,8 @@
                 throw new ArgumentException("pageKey is null or empty", nameof(pageKey));
             }
 
-            // if the page key is the same as the current one, just do a refresh
-
-            this.navigationService.Navigate(new Uri(pageKey, UriKind.RelativeOrAbsolute), parameter);
+            // adding current time to the query string to create a new journal entry
+            this.navigationService.Navigate(new Uri(pageKey + $"?currentTime={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}", UriKind.RelativeOrAbsolute), parameter);
             ApplicationContext.NavigationContext.NavigationState = parameter;
         }
     }
