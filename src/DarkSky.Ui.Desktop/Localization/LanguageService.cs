@@ -1,14 +1,18 @@
 ﻿namespace DarkSky.Ui.Desktop.Localization
 {
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
     using DarkSky.Application.Domain.Model;
-    using GalaSoft.MvvmLight;
     using Gu.Localization;
 
-    public class LanguageService : ViewModelBase, ILanguageService
+    /// <summary>
+    /// Language service
+    /// </summary>
+    /// <seealso cref="DarkSky.Ui.Desktop.Localization.ILanguageService"/>
+    public class LanguageService : ILanguageService
     {
         private static readonly List<Language> supportedLanguages = new List<Language>
         {
@@ -16,22 +20,24 @@
             new Language { Name = "Magyar", LanguageTag = "hu-HU", ShortCode = Languages.Hu }
         };
 
+        /// <inheritdoc/>
         public void ChangeLanguage(Language language)
         {
-            ApplicationContext.UserContext.SelectedLanguage = language.ShortCode;
+            if (language == null)
+            {
+                throw new ArgumentNullException(nameof(language));
+            }
 
-            if (Translator.Cultures.Any(p => string.Equals(p.Name, language.LanguageTag, System.StringComparison.OrdinalIgnoreCase)))
-            {
-                Translator.Culture = new System.Globalization.CultureInfo(language.LanguageTag);
-            }
-            else
-            {
-                Translator.Culture = null;
-            }
+            ApplicationContext.UserContext.SelectedLanguage = language.ShortCode;
+            var cultureInfo = new CultureInfo(language.LanguageTag);
+            CultureInfo.CurrentUICulture = cultureInfo;
+            Translator.Culture = Translator.ContainsCulture(cultureInfo) ? cultureInfo : null;
         }
 
+        /// <inheritdoc/>
         public Task<List<Language>> GetSupportedLanguagesAsync(CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(supportedLanguages);
         }
     }

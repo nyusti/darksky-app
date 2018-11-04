@@ -211,6 +211,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Navigation\NavigationContext.cs" />
     <Compile Include="Navigation\PageNavigationService.cs" />
     <Compile Include="ServiceClient\ConfiguredDarkSkyClient.cs" />
     <Compile Include="Components\Main\MainWindowViewModel.cs" />

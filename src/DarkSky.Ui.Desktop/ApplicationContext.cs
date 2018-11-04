@@ -2,6 +2,7 @@
 {
     using System.Threading;
     using DarkSky.Application.Injection;
+    using DarkSky.Ui.Desktop.Navigation;
     using Microsoft.Extensions.Configuration;
 
     /// <summary>
@@ -10,10 +11,10 @@
     public static class ApplicationContext
     {
         /// <summary>
-        /// Gets the main cancellation token source.
+        /// Gets or sets the application configuration.
         /// </summary>
-        /// <value>The main cancellation token source.</value>
-        public static CancellationTokenSource MainCancellationTokenSource { get; } = new CancellationTokenSource();
+        /// <value>The application configuration.</value>
+        public static IConfiguration ApplicationConfiguration { get; set; }
 
         /// <summary>
         /// Gets or sets the dependency resolver.
@@ -22,10 +23,16 @@
         public static IDependencyResolver DependencyResolver { get; set; }
 
         /// <summary>
-        /// Gets or sets the application configuration.
+        /// Gets the main cancellation token source.
         /// </summary>
-        /// <value>The application configuration.</value>
-        public static IConfiguration ApplicationConfiguration { get; set; }
+        /// <value>The main cancellation token source.</value>
+        public static CancellationTokenSource MainCancellationTokenSource { get; } = new CancellationTokenSource();
+
+        /// <summary>
+        /// Gets the navigation context. Stores state for the navigation mechanism
+        /// </summary>
+        /// <value>The navigation context.</value>
+        public static NavigationContext NavigationContext { get; } = new NavigationContext();
 
         /// <summary>
         /// Gets the user context.

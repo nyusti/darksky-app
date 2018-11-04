@@ -6,15 +6,23 @@
     using DarkSky.Application.Injection;
     using GalaSoft.MvvmLight.Views;
 
+    /// <summary>
+    /// Simple page navigation service
+    /// </summary>
+    /// <seealso cref="GalaSoft.MvvmLight.Views.INavigationService"/>
     public class PageNavigationService : INavigationService
     {
         private readonly NavigationService navigationService;
         private IDependencyScope currentScope;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PageNavigationService"/> class.
+        /// </summary>
+        /// <param name="navigationService">The navigation service to wrap.</param>
+        /// <exception cref="ArgumentNullException">navigationService is null</exception>
         public PageNavigationService(NavigationService navigationService)
         {
             this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-
             this.OnNavigating.Subscribe(args =>
             {
                 this.currentScope?.Dispose();
@@ -29,8 +37,7 @@
             });
         }
 
-        public static object ExtraData { get; private set; }
-
+        /// <inheritdoc/>
         public string CurrentPageKey { get; private set; }
 
         private IObservable<NavigationEventArgs> OnLoaded
@@ -57,20 +64,35 @@
             }
         }
 
+        /// <inheritdoc/>
         public void GoBack()
         {
             this.navigationService.GoBack();
         }
 
+        /// <inheritdoc/>
         public void NavigateTo(string pageKey)
         {
-            this.navigationService.Navigate(new Uri(pageKey, UriKind.RelativeOrAbsolute));
+            if (string.IsNullOrWhiteSpace(pageKey))
+            {
+                throw new ArgumentException("pageKey is null or empty", nameof(pageKey));
+            }
+
+            this.NavigateTo(pageKey, null);
         }
 
+        /// <inheritdoc/>
         public void NavigateTo(string pageKey, object parameter)
         {
+            if (string.IsNullOrWhiteSpace(pageKey))
+            {
+                throw new ArgumentException("pageKey is null or empty", nameof(pageKey));
+            }
+
+            // if the page key is the same as the current one, just do a refresh
+
             this.navigationService.Navigate(new Uri(pageKey, UriKind.RelativeOrAbsolute), parameter);
-            ExtraData = parameter;
+            ApplicationContext.NavigationContext.NavigationState = parameter;
         }
     }
 }

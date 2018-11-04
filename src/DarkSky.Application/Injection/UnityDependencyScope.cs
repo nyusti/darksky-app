@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using Unity;
     using Unity.Exceptions;
 
@@ -30,46 +29,6 @@
         }
 
         /// <inheritdoc/>
-        public object GetService(Type serviceType)
-        {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
-            try
-            {
-                return this.unityContainer.Resolve(serviceType);
-            }
-            catch (ResolutionFailedException ex)
-            {
-                Debug.WriteLine(ex);
-                // TODO: log exception
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.unityContainer.Dispose();
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
-            return this.unityContainer.ResolveAll(serviceType);
-        }
-
-        /// <inheritdoc/>
         public object BuildUp(Type serviceType, object existingObject)
         {
             if (serviceType == null)
@@ -83,6 +42,45 @@
             }
 
             return this.unityContainer.BuildUp(serviceType, existingObject);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.unityContainer.Dispose();
+        }
+
+        /// <inheritdoc/>
+        public object GetService(Type serviceType)
+        {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            try
+            {
+                return this.unityContainer.Resolve(serviceType);
+            }
+            catch (ResolutionFailedException)
+            {
+                // TODO: log exception
+                return null;
+            }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            return this.unityContainer.ResolveAll(serviceType);
         }
     }
 }

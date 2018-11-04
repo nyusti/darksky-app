@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Current weather model
+    /// </summary>
     public partial class CurrentWeather
     {
         public double? ApparentTemperature { get; set; }

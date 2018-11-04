@@ -27,14 +27,7 @@
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        /// <summary>
-        /// Gets the forecast asynchronous.
-        /// </summary>
-        /// <param name="location">The location.</param>
-        /// <param name="language">The language to query data for.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The forecast for the location</returns>
-        /// <exception cref="ArgumentNullException">location is null</exception>
+        /// <inheritdoc/>
         public virtual async Task<CurrentWeather> GetForecastAsync(Location location, Languages language, CancellationToken cancellationToken)
         {
             if (location == null)

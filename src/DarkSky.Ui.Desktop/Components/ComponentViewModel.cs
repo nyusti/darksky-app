@@ -6,7 +6,7 @@
     using Unity.Attributes;
 
     /// <summary>
-    /// Component View model
+    /// Component View model base
     /// </summary>
     /// <seealso cref="GalaSoft.MvvmLight.ViewModelBase"/>
     /// <seealso cref="System.IDisposable"/>
@@ -19,11 +19,29 @@
         protected CancellationToken CancellationToken => this.CancellationTokenSource.Token;
 
         /// <summary>
-        /// Gets the cancellation token source.
+        /// Gets the cancellation token source. This shuld be scoped to the view model.
         /// </summary>
         /// <value>The cancellation token source.</value>
         [Dependency]
         protected CancellationTokenSource CancellationTokenSource { get; set; }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Cleanup();
+            this.Dispose(true);
+        }
+
+        /// <summary>
+        /// Initializes this instance. Override if the descandant wants to have initialization logic.
+        /// </summary>
+        [InjectionMethod]
+        public virtual void Init()
+        {
+        }
 
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -41,24 +59,6 @@
                     this.CancellationTokenSource.Cancel();
                 }
             }
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Cleanup();
-            this.Dispose(true);
-        }
-
-        /// <summary>
-        /// Initializes this instance.
-        /// </summary>
-        [InjectionMethod]
-        public virtual void Init()
-        {
         }
     }
 }
