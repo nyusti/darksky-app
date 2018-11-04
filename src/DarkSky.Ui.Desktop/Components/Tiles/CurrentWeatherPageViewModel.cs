@@ -7,22 +7,27 @@
     using System.Reactive.Threading.Tasks;
     using DarkSky.Application.Domain.Model;
     using DarkSky.Application.Domain.Services;
-    using DarkSky.Ui.Desktop.Navigation;
-    using GalaSoft.MvvmLight.Views;
 
+    /// <summary>
+    /// Current wwather view model
+    /// </summary>
+    /// <seealso cref="DarkSky.Ui.Desktop.Components.ComponentViewModel"/>
     public class CurrentWeatherPageViewModel : ComponentViewModel
     {
         private readonly IForecastService forecastService;
-        private readonly INavigationService navigationService;
         private CurrentWeather currentForecast;
         private List<Forecast> dailyForecast;
         private bool isBusy;
         private bool isReady;
 
-        public CurrentWeatherPageViewModel(IForecastService forecastService, INavigationService navigationService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CurrentWeatherPageViewModel"/> class.
+        /// </summary>
+        /// <param name="forecastService">The forecast service.</param>
+        /// <exception cref="ArgumentNullException">forecastService is null</exception>
+        public CurrentWeatherPageViewModel(IForecastService forecastService)
         {
             this.forecastService = forecastService ?? throw new ArgumentNullException(nameof(forecastService));
-            this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         }
 
         public CurrentWeather CurrentForecast
@@ -49,9 +54,11 @@
             set => this.Set(() => this.IsReady, ref this.isReady, value);
         }
 
+        /// <inheritdoc/>
         public override void Init()
         {
-            if (PageNavigationService.ExtraData is Location selectedLocation)
+            if (ApplicationContext.NavigationContext.NavigationState is Location selectedLocation
+                && selectedLocation != null)
             {
                 this.IsReady = false;
                 this.IsBusy = true;

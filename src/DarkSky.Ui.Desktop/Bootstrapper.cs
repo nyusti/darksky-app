@@ -1,5 +1,6 @@
 ﻿namespace DarkSky.Ui.Desktop
 {
+    using System.Windows;
     using DarkSky.Application.Injection;
     using DarkSky.Ui.Desktop.Components.Error;
     using DarkSky.Ui.Desktop.Components.Main;
@@ -62,14 +63,17 @@
 
             // open the main window
             var mainWindow = new MainWindow();
+
+            // setup navigation service
             var navigationService = mainWindow.NavigationFrame.NavigationService;
             UnityConfiguration.Container.RegisterInstance<INavigationService>(new PageNavigationService(navigationService));
 
+            // inject dependencies to the main window
             mainScope.BuildUp(mainWindow);
 
             application.MainWindow = mainWindow;
             application.MainWindow.ShowActivated = true;
-            application.MainWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            application.MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             application.MainWindow.Show();
         }

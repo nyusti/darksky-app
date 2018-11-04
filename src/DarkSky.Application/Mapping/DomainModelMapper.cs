@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
-
-namespace DarkSky.Application.Mapping
+﻿namespace DarkSky.Application.Mapping
 {
+    using System;
+    using System.Collections.Generic;
+    using AutoMapper;
+
+    /// <summary>
+    /// Domain model mapper
+    /// </summary>
+    /// <seealso cref="DarkSky.Application.Mapping.IDomainModelMapper"/>
     public class DomainModelMapper : IDomainModelMapper
     {
         private readonly Lazy<IMapper> internalMapperFactory;
@@ -13,6 +17,7 @@ namespace DarkSky.Application.Mapping
             this.internalMapperFactory = new Lazy<IMapper>(MapperFactory);
         }
 
+        /// <inheritdoc/>
         public TDestination Map<TDestination>(object source)
         {
             if (source is Client.Models.Forecast forecast

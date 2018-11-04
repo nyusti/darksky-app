@@ -32,6 +32,7 @@
             ["tornado"] = "F056",
         };
 
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string iconName && targetType == typeof(string) && !string.IsNullOrWhiteSpace(iconName))
@@ -49,6 +50,9 @@
             return null;
         }
 
+        /// <summary>
+        /// Always throws not implemented.
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

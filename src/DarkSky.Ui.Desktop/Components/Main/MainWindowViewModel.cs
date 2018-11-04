@@ -25,7 +25,6 @@ namespace DarkSky.Ui.Desktop.Components.Main
         private List<Language> languages;
         private List<Location> locationList;
         private RelayCommand<string> openLinkCommand;
-        private IDisposable propertyChangedSubscriber;
         private Language selectedLanguage;
         private Location selectedLocation;
 
@@ -72,9 +71,10 @@ namespace DarkSky.Ui.Desktop.Components.Main
         public override void Init()
         {
             // subscribe to location change
-            this.propertyChangedSubscriber = this.OnPropertyChanges(p => p.SelectedLocation)
-                .Subscribe(location => this.navigationService.NavigateTo("/Components/Tiles/CurrentWeatherPage.xaml", this.SelectedLocation));
+            this.OnPropertyChanges(p => p.SelectedLocation)
+                .Subscribe(location => this.navigationService.NavigateTo("/Components/Tiles/CurrentWeatherPage.xaml", this.SelectedLocation), this.CancellationToken);
 
+            // subscribe to language change
             this.OnPropertyChanges(p => p.SelectedLanguage)
                 .Where(language => language != null)
                 .Subscribe(language =>
@@ -96,24 +96,13 @@ namespace DarkSky.Ui.Desktop.Components.Main
                 }, this.CancellationToken);
 
             // load locations
-
             this.locationService.GetFavoriteLocationsAsync(this.CancellationToken)
                 .ToObservable()
-                .Subscribe(locations =>
-                {
-                    this.LocationList = locations;
-                }, this.CancellationToken);
+                .Subscribe(locations => this.LocationList = locations, this.CancellationToken);
 
             this.navigationService.NavigateTo("/Components/Welcome/WelcomePage.xaml");
 
             base.Init();
-        }
-
-        /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
-        {
-            this.propertyChangedSubscriber.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

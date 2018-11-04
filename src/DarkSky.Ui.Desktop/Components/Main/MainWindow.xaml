@@ -4,11 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DarkSky.Ui.Desktop"
-        xmlns:cont="clr-namespace:DarkSky.Ui.Desktop.Components.Tiles"
         mc:Ignorable="d"
         ShowActivated="True"
-        xmlns:l="http://gu.se/Localization"
-        xmlns:p="clr-namespace:DarkSky.Ui.Desktop.Localization"
         Title="Weather App" Height="600" Width="1000">
 
     <Grid>

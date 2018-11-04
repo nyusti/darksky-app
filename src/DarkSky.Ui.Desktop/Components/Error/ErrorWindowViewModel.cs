@@ -19,6 +19,7 @@
         /// <inheritdoc/>
         public override void Init()
         {
+            // gets the last exception from the usercontext
             this.ExceptionMessage = ApplicationContext.UserContext.LastExceptions.LastOrDefault()?.ToString();
             base.Init();
         }

@@ -40,7 +40,9 @@
                 .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager())
                 .RegisterType<IDomainModelMapper, DomainModelMapper>(new ContainerControlledLifetimeManager())
                 .RegisterType<ILanguageService, LanguageService>(new ContainerControlledLifetimeManager())
-                .RegisterType<CancellationTokenSource>(new HierarchicalLifetimeManager(), new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)));
+                .RegisterType<CancellationTokenSource>(
+                    new HierarchicalLifetimeManager(),
+                    new InjectionFactory(c => CancellationTokenSource.CreateLinkedTokenSource(ApplicationContext.MainCancellationTokenSource.Token)));
 
             // register all viewmodels as hierarchical
             container.RegisterTypes(
@@ -54,6 +56,7 @@
         {
             // configure singleton container
             var container = new UnityContainer();
+
             DesignTimeConfiguration(container);
             RuntimeConfiguration(container);
 
