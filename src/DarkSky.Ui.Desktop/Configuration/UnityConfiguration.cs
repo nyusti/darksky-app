@@ -35,7 +35,7 @@
             // register services
             container
                 .RegisterType<IDependencyResolver, UnityHierarchicalDependencyResolver>(new ContainerControlledLifetimeManager())
-                .RegisterType<IDarkSkyClient, ConfiguredDarkSkyClient>(new HierarchicalLifetimeManager())
+                .RegisterType<IDarkSkyClient, ConfiguredDarkSkyClient>(new ContainerControlledLifetimeManager())
                 .RegisterType<ILocationService, OfflineLocationService>(new HierarchicalLifetimeManager())
                 .RegisterType<IForecastService, DarkSkyForecastService>(new HierarchicalLifetimeManager())
                 .RegisterType<IDomainModelMapper, DomainModelMapper>(new ContainerControlledLifetimeManager())
