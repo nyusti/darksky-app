@@ -1,5 +1,6 @@
 ﻿namespace DarkSky.Ui.Desktop
 {
+    using System.Globalization;
     using System.Windows;
     using DarkSky.Application.Injection;
     using DarkSky.Ui.Desktop.Components.Error;
@@ -20,6 +21,9 @@
         /// </summary>
         public void Run(App application)
         {
+            // default culture to us
+            CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = new CultureInfo("en-Us");
+
             // register global exception handling
             application.DispatcherUnhandledException += (source, args) =>
             {

@@ -26,6 +26,7 @@
             this.OnNavigating.Subscribe(args =>
             {
                 this.currentScope?.Dispose();
+                this.currentScope = null;
             });
 
             this.OnLoaded.Subscribe(arg =>
