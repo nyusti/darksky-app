@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="automapper" Version="7.0.1" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.17" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Reactive" Version="4.1.2" />
     <PackageReference Include="unity" Version="5.8.11" />
   </ItemGroup>
